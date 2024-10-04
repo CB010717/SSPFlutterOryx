@@ -17,7 +17,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const ProductScreen(),
-    const SettingsScreen(), // Replaced Profile with Settings
+    const SettingsScreen(),
     const OffersScreen(),
   ];
 
@@ -46,7 +46,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Settings',  // Changed to Settings
+            label: 'Settings',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_offer),

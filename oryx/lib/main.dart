@@ -1,30 +1,30 @@
-import 'package:flutter/material.dart';
-import 'screens/offers_screen.dart';
-import 'screens/product_screen.dart';
-import 'screens/profile_screen.dart';
-import 'screens/settings_screen.dart';
-import 'screens/single_item.dart';
-import 'screens/splash_screen.dart';
+// import 'package:flutter/material.dart';
+// import 'screens/offers_screen.dart';
+// import 'screens/product_screen.dart';
+// import 'screens/profile_screen.dart';
+// import 'screens/settings_screen.dart';
+// import 'screens/single_item.dart';
+// import 'screens/splash_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'ORYX App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SplashScreen(), // Set SplashScreen as the starting screen
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'ORYX App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: const SplashScreen(), // Set SplashScreen as the starting screen
+//     );
+//   }
+// }
 
 
 // import 'package:flutter/material.dart';
@@ -85,3 +85,26 @@ class MyApp extends StatelessWidget {
 //     );
 //   }
 // }
+
+
+import 'package:flutter/material.dart';
+import 'widgets/bottom_navigation.dart'; // Import the bottom navigation screen
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ORYX Skincare',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+      ),
+      home: const BottomNavigation(), // Set BottomNavigation as the home
+    );
+  }
+}
