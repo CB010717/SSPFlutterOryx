@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import 'onboard_screen_01.dart';
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
     
-    // Redirect to LoginScreen after 3 seconds
+    // Redirect to OnboardScreen01 after 3 seconds
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const OnboardScreen01()), // Go to OnboardScreen01
@@ -34,11 +31,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo (GIF or SVG)
+            // Logo (JPG)
             SizedBox(
               height: 150.0,
               width: 150.0,
-              child: SvgPicture.asset('assets/images/logo.jpg'), // Replace with your GIF logo path
+              child: Image.asset('assets/images/logo.jpg'), // Replace with your JPG logo path
             ),
             const SizedBox(height: 20),
             

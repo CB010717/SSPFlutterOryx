@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         image: const DecorationImage(
-          image: NetworkImage('https://via.placeholder.com/400x180.png?text=Skincare+Ad'),
+          image: NetworkImage('http://10.0.2.2:8000/storage/products/17278659911.jpg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -178,7 +178,7 @@ class HomeScreen extends StatelessWidget {
                 topRight: Radius.circular(12),
               ),
               child: Image.network(
-                'https://via.placeholder.com/150x150.png?text=Product+Image',
+                'http://10.0.2.2:8000/storage/products/17278659911.jpg',
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,

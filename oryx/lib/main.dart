@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/offers_screen.dart';
 import 'screens/product_screen.dart';
 import 'screens/profile_screen.dart';
+import 'screens/settings_screen.dart';
 import 'screens/single_item.dart';
 import 'screens/splash_screen.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ProductScreen(), // Set SplashScreen as the starting screen
+      home: const SplashScreen(), // Set SplashScreen as the starting screen
     );
   }
 }

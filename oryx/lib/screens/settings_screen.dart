@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../services/api_service.dart'; // Import the ApiService if you want to fetch settings data
+import 'notification_screen.dart';
+import 'profile_screen.dart';
+import 'location_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -9,118 +11,115 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  late Future<Map<String, dynamic>> _settingsData;
-
-  @override
-  void initState() {
-    super.initState();
-    _settingsData = ApiService.fetchProfile(); // Replace with the proper fetch call if necessary
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
+        backgroundColor: Colors.purple,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: FutureBuilder<Map<String, dynamic>>(
-        future: _settingsData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Failed to load settings data.'));
-          } else if (snapshot.hasData) {
-            final settings = snapshot.data!;
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Display the logo if available
-                  if (settings['logo'] != null)
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(settings['logo']),
-                    ),
-                  const SizedBox(height: 20),
-                  // Display the name
-                  Text(
-                    settings['name'] ?? 'N/A',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  // Display the email
-                  _buildSettingsInfo(
-                    icon: Icons.email_outlined,
-                    title: 'Email',
-                    content: settings['email'] ?? 'N/A',
-                  ),
-                  const SizedBox(height: 20),
-                  // Display the phone
-                  _buildSettingsInfo(
-                    icon: Icons.phone,
-                    title: 'Phone',
-                    content: settings['phone'] ?? 'N/A',
-                  ),
-                  const SizedBox(height: 20),
-                  // Display the address
-                  _buildSettingsInfo(
-                    icon: Icons.location_on_outlined,
-                    title: 'Address',
-                    content: settings['address'] ?? 'N/A',
-                  ),
-                ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // User avatar section
+            const CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage('assets/images/user_avatar.jpg'),
+            ),
+            const SizedBox(height: 20),
+
+            // Display the user name
+            const Text(
+              "John Doe",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-            );
-          } else {
-            return const Center(child: Text('No settings data available.'));
-          }
-        },
+            ),
+            const SizedBox(height: 20),
+
+            // Buttons for Settings options
+            _buildSettingsButton(
+              icon: Icons.notifications_outlined,
+              title: "Notifications",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const NotificationScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            _buildSettingsButton(
+              icon: Icons.person_outline,
+              title: "Profile",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            _buildSettingsButton(
+              icon: Icons.location_on_outlined,
+              title: "Location",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LocationScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            _buildSettingsButton(
+              icon: Icons.logout,
+              title: "Logout",
+              onPressed: () {
+                // Handle logout
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  // Helper method to display settings info
-  Widget _buildSettingsInfo({
+  // Helper method to create Settings buttons
+  Widget _buildSettingsButton({
     required IconData icon,
     required String title,
-    required String content,
+    required VoidCallback onPressed,
   }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 30, color: Colors.purple),
-        const SizedBox(width: 20),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        backgroundColor: Colors.purple,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 30, color: Colors.white),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.white,
               ),
-              const SizedBox(height: 5),
-              Text(
-                content,
-                style: const TextStyle(
-                  fontSize: 14,
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+          const Icon(Icons.arrow_forward_ios, size: 20, color: Colors.white),
+        ],
+      ),
     );
   }
 }

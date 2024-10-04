@@ -22,7 +22,8 @@ class SingleItemScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.network(
-                'http://localhost:8000/storage/${product['image']}',
+                'http://10.0.2.2:8000/storage/products/17278655081.jpg',
+                // 'http://localhost:8000/storage/${product['image']}',
                 fit: BoxFit.cover,
                 height: 250,
                 width: double.infinity,
@@ -64,7 +65,8 @@ class SingleItemScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Image.network(
-                'http://localhost:8000/storage/${product['gallery']}',
+                'http://10.0.2.2:8000/storage/products/17278655081.jpg',
+                // 'http://localhost:8000/storage/${product['gallery']}',
                 fit: BoxFit.cover,
                 height: 150,
                 width: double.infinity,
@@ -76,3 +78,4 @@ class SingleItemScreen extends StatelessWidget {
     );
   }
 }
+

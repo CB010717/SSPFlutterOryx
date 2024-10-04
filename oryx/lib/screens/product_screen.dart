@@ -63,7 +63,8 @@ class _ProductScreenState extends State<ProductScreen> {
                         children: [
                           Expanded(
                             child: Image.network(
-                              'http://localhost:8000/storage/${product['image']}',
+                              'http://10.0.2.2:8000/storage/products/17278655081.jpg',
+                              // 'http://localhost:8000/storage/${product['image']}',
                               fit: BoxFit.cover,
                             ),
                           ),
