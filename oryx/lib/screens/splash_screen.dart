@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             SizedBox(
               height: 150.0,
               width: 150.0,
-              child: SvgPicture.asset('assets/images/logo.gif'), // Replace with your GIF logo path
+              child: SvgPicture.asset('assets/images/logo.jpg'), // Replace with your GIF logo path
             ),
             const SizedBox(height: 20),
             

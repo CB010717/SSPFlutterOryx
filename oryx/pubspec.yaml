@@ -39,6 +39,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   http: ^1.2.2
   shared_preferences: ^2.3.2
+  sensors_plus: ^6.0.1
+  geolocator: ^13.0.1
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +69,7 @@ flutter:
     - assets/images/image_01.png
     - assets/images/image_02.png
     - assets/images/image_03.png
-    - assets/images/logo.gif
+    - assets/images/logo.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
