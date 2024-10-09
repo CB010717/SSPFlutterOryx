@@ -4,13 +4,13 @@ import '../models/user_model.dart';
 
 class ApiService {
   static const String baseUrl =
-      "http://10.0.2.2:8000/api"; // Update with correct IP address
+      "http://10.0.2.2:8000/api";
 
   // Method for user registration
   static Future<bool> registerUser(
       String name, String email, String password) async {
     final url = Uri.parse('$baseUrl/register');
-    print("Registering user with email: $email"); // Debugging print
+    print("Registering user with email: $email");
 
     try {
       final response = await http.post(
@@ -26,7 +26,7 @@ class ApiService {
       );
 
       print(
-          "Register response status: ${response.statusCode}"); // Debugging print
+          "Register response status: ${response.statusCode}"); 
       if (response.statusCode == 201) {
         print("User registered successfully.");
         return true; // Success
