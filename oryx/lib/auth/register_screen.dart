@@ -4,7 +4,7 @@ import '../widgets/alert_dialog.dart';
 import 'login_screen.dart'; // Correct import for LoginScreen
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -92,9 +92,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 30),
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   "Create Account",
                   style: TextStyle(
                     fontSize: 28,
@@ -195,7 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         hintText: hintText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.purple),
+          borderSide: const BorderSide(color: Colors.purple),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),

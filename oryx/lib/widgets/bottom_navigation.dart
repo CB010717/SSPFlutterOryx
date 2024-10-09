@@ -5,7 +5,7 @@ import '../screens/settings_screen.dart';
 import '../screens/offers_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({Key? key}) : super(key: key);
+  const BottomNavigation({super.key});
 
   @override
   _BottomNavigationState createState() => _BottomNavigationState();

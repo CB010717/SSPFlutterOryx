@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class OrientationScreen extends StatelessWidget {
-  const OrientationScreen({Key? key}) : super(key: key);
+  const OrientationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

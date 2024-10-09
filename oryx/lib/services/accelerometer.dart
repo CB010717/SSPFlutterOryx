@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class AccelerometerScreen extends StatefulWidget {
-  const AccelerometerScreen({Key? key}) : super(key: key);
+  const AccelerometerScreen({super.key});
 
   @override
   _AccelerometerScreenState createState() => _AccelerometerScreenState();

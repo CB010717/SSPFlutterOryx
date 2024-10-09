@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class GyroscopeScreen extends StatefulWidget {
-  const GyroscopeScreen({Key? key}) : super(key: key);
+  const GyroscopeScreen({super.key});
 
   @override
   _GyroscopeScreenState createState() => _GyroscopeScreenState();

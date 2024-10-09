@@ -227,9 +227,9 @@ class HomeScreen extends StatelessWidget {
         color: Colors.purple.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             "Why Choose ORYX Skincare?",
             style: TextStyle(

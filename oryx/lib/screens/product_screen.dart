@@ -3,7 +3,7 @@ import '../services/api_service.dart';
 import 'single_item.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key}) : super(key: key);
+  const ProductScreen({super.key});
 
   @override
   _ProductScreenState createState() => _ProductScreenState();

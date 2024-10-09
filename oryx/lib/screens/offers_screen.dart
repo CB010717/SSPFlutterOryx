@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 
 class OffersScreen extends StatefulWidget {
-  const OffersScreen({Key? key}) : super(key: key);
+  const OffersScreen({super.key});
 
   @override
   _OffersScreenState createState() => _OffersScreenState();

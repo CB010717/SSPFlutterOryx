@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SingleItemScreen extends StatelessWidget {
   final dynamic product;
 
-  const SingleItemScreen({Key? key, required this.product}) : super(key: key);
+  const SingleItemScreen({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
