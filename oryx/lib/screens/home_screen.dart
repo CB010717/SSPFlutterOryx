@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("ORYX Skincare"),
-        backgroundColor: Colors.purple,
+        backgroundColor: const Color.fromARGB(255, 195, 57, 219),
         actions: [
           IconButton(
             icon: Icon(isDarkMode ? Icons.dark_mode : Icons.light_mode), // Toggle button for dark mode
