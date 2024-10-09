@@ -5,7 +5,10 @@ import '../screens/settings_screen.dart';
 import '../screens/offers_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key});
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+
+  const BottomNavigation({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   _BottomNavigationState createState() => _BottomNavigationState();
@@ -14,12 +17,18 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const ProductScreen(),
-    const SettingsScreen(),
-    const OffersScreen(),
-  ];
+  late List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      HomeScreen(toggleTheme: widget.toggleTheme, isDarkMode: widget.isDarkMode),
+      const ProductScreen(),
+      const SettingsScreen(),
+      const OffersScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -30,7 +39,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex], // Display the selected screen
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,

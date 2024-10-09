@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final VoidCallback toggleTheme; // Add toggleTheme parameter
+  final bool isDarkMode; // Add isDarkMode parameter
+
+  const HomeScreen({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +13,10 @@ class HomeScreen extends StatelessWidget {
         title: const Text("ORYX Skincare"),
         backgroundColor: Colors.purple,
         actions: [
+          IconButton(
+            icon: Icon(isDarkMode ? Icons.dark_mode : Icons.light_mode), // Toggle button for dark mode
+            onPressed: toggleTheme, // Call the toggleTheme function
+          ),
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
@@ -56,7 +63,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Advertisement Banner Widget
   Widget _buildAdvertisementBanner() {
     return Container(
       height: 180,
@@ -89,7 +95,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Shop by Categories Section
   Widget _buildCategorySection() {
     return SizedBox(
       height: 100,
@@ -125,7 +130,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Product Grid Section
   Widget _buildProductGrid() {
     return GridView.count(
       crossAxisCount: 2,
@@ -203,7 +207,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Shop Summary Section
   Widget _buildShopSummary() {
     return Container(
       padding: const EdgeInsets.all(20.0),
@@ -211,9 +214,9 @@ class HomeScreen extends StatelessWidget {
         color: Colors.purple.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             "Why Choose ORYX Skincare?",
             style: TextStyle(

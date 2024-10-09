@@ -4,7 +4,10 @@ import '../widgets/alert_dialog.dart';
 import 'login_screen.dart'; // Correct import for LoginScreen
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+
+  const RegisterScreen({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -17,8 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordConfirmController = TextEditingController();
   bool isLoading = false;
 
-  // Function to register a user
-  Future<void> _register() async {
+  void _register() async {
     setState(() {
       isLoading = true;
     });
@@ -28,7 +30,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final password = passwordController.text.trim();
     final passwordConfirm = passwordConfirmController.text.trim();
 
-    // Validate the input fields
     if (name.isEmpty || email.isEmpty || password.isEmpty || passwordConfirm.isEmpty) {
       _showAlertDialog("All fields are required.");
       setState(() {
@@ -45,7 +46,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    // Call the API to register the user
     final isSuccess = await ApiService.registerUser(name, email, password);
 
     setState(() {
@@ -54,10 +54,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (isSuccess) {
       _showAlertDialog("Registration Successful. Please log in.");
-      // Navigate to Login Screen after the dialog is dismissed
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const LoginScreen()),
+          MaterialPageRoute(
+            builder: (_) => LoginScreen(
+              toggleTheme: widget.toggleTheme,
+              isDarkMode: widget.isDarkMode,
+            ),
+          ),
         );
       });
     } else {
@@ -86,16 +90,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         backgroundColor: Colors.purple,
       ),
       body: Container(
-        color: Colors.white, // Set background color
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 30),
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   "Create Account",
                   style: TextStyle(
                     fontSize: 28,
@@ -121,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: "Enter your name",
                 isPassword: false,
               ),
-              const SizedBox(height: 16), // Reduced space between fields
+              const SizedBox(height: 16),
 
               _buildInputField(
                 controller: emailController,
@@ -147,13 +150,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 30),
 
-              // Register button
               isLoading
                   ? const CircularProgressIndicator()
                   : _buildRegisterButton(),
               const SizedBox(height: 20),
 
-              // Login prompt
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -161,7 +162,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => LoginScreen(
+                            toggleTheme: widget.toggleTheme,
+                            isDarkMode: widget.isDarkMode,
+                          ),
+                        ),
                       );
                     },
                     child: const Text(
@@ -181,7 +187,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // Helper method to create input fields for reuse
   Widget _buildInputField({
     required TextEditingController controller,
     required String labelText,
@@ -196,36 +201,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
         hintText: hintText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.purple),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(color: Colors.purple, width: 2.0),
         ),
         filled: true,
         fillColor: Colors.white,
       ),
-      style: const TextStyle(fontSize: 16),
     );
   }
 
-  // Method to create a stylized register button
   Widget _buildRegisterButton() {
     return ElevatedButton(
       onPressed: _register,
       style: ElevatedButton.styleFrom(
-        elevation: 5,
+        padding: const EdgeInsets.symmetric(vertical: 15.0),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-        backgroundColor: Colors.purple, // Background color
-        textStyle: const TextStyle(
+        backgroundColor: Colors.purple,
+      ),
+      child: const Text(
+        "Register",
+        style: TextStyle(
+          color: Colors.white,
           fontSize: 16,
-          color: Colors.white, // Button text color
         ),
       ),
-      child: const Text("Register"),
     );
   }
 }

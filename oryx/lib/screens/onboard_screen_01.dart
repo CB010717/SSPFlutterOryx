@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'onboard_screen_02.dart';
 
 class OnboardScreen01 extends StatelessWidget {
-  const OnboardScreen01({super.key});
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+
+  const OnboardScreen01({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,12 @@ class OnboardScreen01 extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const OnboardScreen02()),
+                  MaterialPageRoute(
+                    builder: (_) => OnboardScreen02(
+                      toggleTheme: toggleTheme, // Pass the function
+                      isDarkMode: isDarkMode,   // Pass the state
+                    ),
+                  ),
                 );
               },
               style: ElevatedButton.styleFrom(

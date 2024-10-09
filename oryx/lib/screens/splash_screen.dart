@@ -4,7 +4,10 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'onboard_screen_01.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+
+  const SplashScreen({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -14,11 +17,16 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    
+
     // Redirect to OnboardScreen01 after 3 seconds
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const OnboardScreen01()), // Go to OnboardScreen01
+        MaterialPageRoute(
+          builder: (_) => OnboardScreen01(
+            toggleTheme: widget.toggleTheme, // Pass the function
+            isDarkMode: widget.isDarkMode,   // Pass the state
+          ),
+        ),
       );
     });
   }
@@ -38,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               child: Image.asset('assets/images/logo.jpg'), // Replace with your JPG logo path
             ),
             const SizedBox(height: 20),
-            
+
             // Display App Name (ORYX)
             const Text(
               "ORYX",
@@ -49,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               ),
             ),
             const SizedBox(height: 40),
-            
+
             // Loading bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50.0),

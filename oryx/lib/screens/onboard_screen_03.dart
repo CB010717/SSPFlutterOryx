@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import '../auth/login_screen.dart';
 
 class OnboardScreen03 extends StatefulWidget {
-  const OnboardScreen03({super.key});
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+
+  const OnboardScreen03({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   _OnboardScreen03State createState() => _OnboardScreen03State();
@@ -15,7 +18,7 @@ class _OnboardScreen03State extends State<OnboardScreen03> {
   @override
   void initState() {
     super.initState();
-    
+
     // Show the "Let's Start" popup after 3 seconds
     Timer(const Duration(seconds: 3), () {
       setState(() {
@@ -85,7 +88,12 @@ class _OnboardScreen03State extends State<OnboardScreen03> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => LoginScreen(
+                      toggleTheme: widget.toggleTheme, // Pass toggleTheme
+                      isDarkMode: widget.isDarkMode, // Pass isDarkMode
+                    ),
+                  ),
                 );
               },
               style: ElevatedButton.styleFrom(

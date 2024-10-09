@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:oryx/auth/register_screen.dart';
 import '../services/api_service.dart';
 import '../services/token_service.dart'; // Import TokenService
+import '../screens/home_screen.dart'; // Home Screen after login
+import '../widgets/bottom_navigation.dart';
+import 'register_screen.dart'; // Correct import for RegisterScreen
 import '../widgets/alert_dialog.dart'; // Import AlertDialogWidget
-import '../widgets/bottom_navigation.dart'; // Import BottomNavigation
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+
+  const LoginScreen({Key? key, required this.toggleTheme, required this.isDarkMode}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -75,9 +79,14 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       },
     ).then((_) {
-      // Navigate to BottomNavigation after the dialog is dismissed
+      // Navigate to Home Screen after the dialog is dismissed
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const BottomNavigation()),
+        MaterialPageRoute(
+          builder: (_) => BottomNavigation(
+            toggleTheme: widget.toggleTheme, // Pass the toggleTheme
+            isDarkMode: widget.isDarkMode, // Pass the isDarkMode
+          ),
+        ),
       );
     });
   }
@@ -174,8 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: _login,
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15.0),
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -183,8 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: const Text(
                           "Login",
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 16),
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
                     ),
@@ -200,7 +207,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (_) => const RegisterScreen()),
+                                builder: (_) => RegisterScreen(
+                                  toggleTheme: widget.toggleTheme,
+                                  isDarkMode: widget.isDarkMode,
+                                ),
+                              ),
                             );
                           },
                           child: const Text(
