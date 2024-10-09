@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:oryx/auth/register_screen.dart';
 import '../services/api_service.dart';
 import '../services/token_service.dart'; // Import TokenService
-import '../screens/home_screen.dart'; // Home Screen after login
-import 'register_screen.dart'; // Correct import for RegisterScreen
 import '../widgets/alert_dialog.dart'; // Import AlertDialogWidget
+import '../widgets/bottom_navigation.dart'; // Import BottomNavigation
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -75,9 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       },
     ).then((_) {
-      // Navigate to Home Screen after the dialog is dismissed
+      // Navigate to BottomNavigation after the dialog is dismissed
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        MaterialPageRoute(builder: (_) => const BottomNavigation()),
       );
     });
   }
@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.0),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 10,
@@ -170,24 +170,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     isLoading
                         ? const CircularProgressIndicator()
                         : SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: _login,
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                backgroundColor: Colors.purple,
-                              ),
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              ),
-                            ),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _login,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
+                          backgroundColor: Colors.purple,
+                        ),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 16),
+                        ),
+                      ),
+                    ),
 
                     const SizedBox(height: 20),
 

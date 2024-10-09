@@ -24,11 +24,8 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Advertisement/Banner Section
               _buildAdvertisementBanner(),
               const SizedBox(height: 20),
-
-              // Shop Overview or Summary
               const Text(
                 "Shop by Categories",
                 style: TextStyle(
@@ -39,10 +36,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               _buildCategorySection(),
-
               const SizedBox(height: 20),
-
-              // Highlighted Products
               const Text(
                 "Popular Products",
                 style: TextStyle(
@@ -53,10 +47,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               _buildProductGrid(),
-
               const SizedBox(height: 20),
-
-              // Shop Summary or Promotional Content
               _buildShopSummary(),
             ],
           ),
@@ -134,7 +125,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Product Grid Section (for displaying popular products)
+  // Product Grid Section
   Widget _buildProductGrid() {
     return GridView.count(
       crossAxisCount: 2,
@@ -149,7 +140,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Individual Product Item
   Widget _buildProductItem() {
     return GestureDetector(
       onTap: () {
@@ -171,7 +161,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
@@ -185,8 +174,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-
-            // Product Name
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
@@ -198,10 +185,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 5),
-
-            // Product Price
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
@@ -227,9 +211,9 @@ class HomeScreen extends StatelessWidget {
         color: Colors.purple.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: const [
           Text(
             "Why Choose ORYX Skincare?",
             style: TextStyle(
