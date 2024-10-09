@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'ORYX Skincare',
       theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
       home: SplashScreen(
