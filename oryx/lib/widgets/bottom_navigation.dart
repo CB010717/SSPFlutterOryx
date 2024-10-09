@@ -25,8 +25,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
     _screens = [
       HomeScreen(toggleTheme: widget.toggleTheme, isDarkMode: widget.isDarkMode),
       const ProductScreen(),
-      const SettingsScreen(),
       const OffersScreen(),
+      const SettingsScreen(),
     ];
   }
 
@@ -53,13 +53,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
             icon: Icon(Icons.shopping_bag),
             label: 'Products',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+          
           BottomNavigationBarItem(
             icon: Icon(Icons.local_offer),
             label: 'Offers',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
         selectedItemColor: Colors.purple,
