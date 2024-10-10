@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 
 class OffersScreen extends StatefulWidget {
-  const OffersScreen({super.key});
+  const OffersScreen({Key? key}) : super(key: key);
 
   @override
   _OffersScreenState createState() => _OffersScreenState();
@@ -19,12 +19,29 @@ class _OffersScreenState extends State<OffersScreen> {
 
   String formatDiscount(dynamic offer) {
     if (offer['type'] == 'Decimal') {
-      return 'Drop \$${offer['discount']}';
+      return '\$${offer['discount'] ?? 0} off'; // Safe fallback to 0
     } else if (offer['type'] == 'Percentage') {
-      return 'Drop ${offer['discount']}%';
+      return '${offer['discount'] ?? 0}% off';
     } else {
       return '';
     }
+  }
+
+  Widget formatStatus(int status) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: status == 1 ? Colors.green[100] : Colors.red[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        status == 1 ? 'Active' : 'Inactive',
+        style: TextStyle(
+          color: status == 1 ? Colors.green : Colors.red,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 
   @override
@@ -53,34 +70,101 @@ class _OffersScreenState extends State<OffersScreen> {
               itemBuilder: (context, index) {
                 final offer = snapshot.data![index];
                 return Card(
-                  elevation: 3,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: ListTile(
-                    leading: Image.network(
-                      offer['image'],
-                      fit: BoxFit.cover,
-                      width: 60,
-                      height: 60,
-                    ),
-                    title: Text(
-                      offer['name'],
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      formatDiscount(offer),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.info_outline),
-                      onPressed: () {
-                        _showOfferDetails(context, offer);
-                      },
+                  elevation: 4,
+                  margin: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                offer['image'],
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.error, size: 80);
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    offer['name'],
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    offer['title'] ?? 'No title available',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 6,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.blue.withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          formatDiscount(offer),
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      formatStatus(offer['status']),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          "Expires on: ${offer['expire_date'] ?? 'Unknown'}",
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              _showOfferDetails(context, offer);
+                            },
+                            child: const Text('View Details'),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -92,7 +176,6 @@ class _OffersScreenState extends State<OffersScreen> {
     );
   }
 
-  // Function to show offer details in a dialog
   void _showOfferDetails(BuildContext context, dynamic offer) {
     showDialog(
       context: context,
@@ -105,13 +188,13 @@ class _OffersScreenState extends State<OffersScreen> {
             children: [
               Image.network(offer['image']),
               const SizedBox(height: 10),
-              Text("Title: ${offer['title']}"),
+              Text("Title: ${offer['title'] ?? 'No title available'}"),
               const SizedBox(height: 5),
-              Text("Type: ${offer['type']}"),
+              Text("Type: ${offer['type'] ?? 'Unknown'}"),
               const SizedBox(height: 5),
               Text("Discount: ${formatDiscount(offer)}"),
               const SizedBox(height: 5),
-              Text("Expires on: ${offer['expire_date']}"),
+              Text("Expires on: ${offer['expire_date'] ?? 'Unknown'}"),
             ],
           ),
           actions: [

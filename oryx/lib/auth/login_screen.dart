@@ -10,7 +10,7 @@ class LoginScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
   final bool isDarkMode;
 
-  const LoginScreen({Key? key, required this.toggleTheme, required this.isDarkMode}) : super(key: key);
+  const LoginScreen({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.0),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 10,

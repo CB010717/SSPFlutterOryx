@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart';
-import 'widgets/bottom_navigation.dart'; // Import your navigation widget
+// Import your navigation widget
 
 void main() {
   runApp(const MyApp());

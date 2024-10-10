@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
+import '../models/offer_model.dart';
 
 class ApiService {
   static const String baseUrl =
@@ -149,7 +150,8 @@ class ApiService {
     final response = await http.get(Uri.parse('$baseUrl/home/offers'));
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return data['offers']; // Extract the 'offers' array from the response
     } else {
       throw Exception('Failed to load offers');
     }
