@@ -8,7 +8,7 @@ class NotificationScreen extends StatelessWidget {
     final List<Map<String, String>> notifications = [
       {
         'title': 'Order Shipped',
-        'description': 'Your order #1234 has been shipped yesterday.',
+        'description': 'Your order #1234 has been shipped.',
         'time': '2 mins ago',
       },
       {
