@@ -1,50 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-class GeolocationScreen extends StatefulWidget {
-  const GeolocationScreen({super.key});
-
+class LocationScreen extends StatefulWidget {
   @override
-  _GeolocationScreenState createState() => _GeolocationScreenState();
+  _LocationScreenState createState() => _LocationScreenState();
 }
 
-class _GeolocationScreenState extends State<GeolocationScreen> {
-  String _locationMessage = "Location: Unknown";
-
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-  }
+class _LocationScreenState extends State<LocationScreen> {
+  String locationMessage = "Press the button to get location";
 
   Future<void> _getCurrentLocation() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      setState(() {
+        locationMessage = "Location services are disabled.";
+      });
+      return;
     }
 
-    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      setState(() {
-        _locationMessage = "Location: ${position.latitude}, ${position.longitude}";
-      });
-    } else {
-      setState(() {
-        _locationMessage = "Location permission denied";
-      });
+    // Check for permission to access location
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.deniedForever) {
+        setState(() {
+          locationMessage = "Location permissions are permanently denied.";
+        });
+        return;
+      }
     }
+
+    if (permission == LocationPermission.denied) {
+      setState(() {
+        locationMessage = "Location permission denied.";
+      });
+      return;
+    }
+
+    // Get the current location
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    setState(() {
+      locationMessage = "Latitude: ${position.latitude}, Longitude: ${position.longitude}";
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Geolocation"),
+        title: Text("Geolocation Example"),
       ),
       body: Center(
-        child: Text(
-          _locationMessage,
-          style: const TextStyle(fontSize: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(locationMessage),
+            ElevatedButton(
+              onPressed: _getCurrentLocation,
+              child: Text("Get Current Location"),
+            ),
+          ],
         ),
       ),
     );

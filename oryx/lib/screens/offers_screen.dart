@@ -186,7 +186,7 @@ class _OffersScreenState extends State<OffersScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(offer['image']),
+              // Image.network(offer['image']),
               const SizedBox(height: 10),
               Text("Title: ${offer['title'] ?? 'No title available'}"),
               const SizedBox(height: 5),

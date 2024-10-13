@@ -3,7 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key});
+  const LocationScreen({Key? key}) : super(key: key);
 
   @override
   _LocationScreenState createState() => _LocationScreenState();
@@ -11,22 +11,24 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   late GoogleMapController _mapController;
-  LatLng _currentLocation = const LatLng(40.7128, -74.0060); // Default to NYC coordinates
-  bool _loadingLocation = true;
+  LatLng? _currentLocation;
+  bool _loading = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _checkPermissionsAndFetchLocation();
-  }
+  // Method to get the current location
+  Future<void> _getCurrentLocation() async {
+    setState(() {
+      _loading = true;
+    });
 
-  Future<void> _checkPermissionsAndFetchLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      setState(() {
+        _loading = false;
+      });
       return;
     }
 
@@ -34,24 +36,33 @@ class _LocationScreenState extends State<LocationScreen> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        setState(() {
+          _loading = false;
+        });
         return;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
+      setState(() {
+        _loading = false;
+      });
       return;
     }
 
     // If all permissions are granted, get the user's location
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
     setState(() {
       _currentLocation = LatLng(position.latitude, position.longitude);
-      _loadingLocation = false;
-    });
-  }
+      _loading = false;
 
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
+      _mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: _currentLocation!, zoom: 16),
+        ),
+      );
+    });
   }
 
   @override
@@ -61,24 +72,42 @@ class _LocationScreenState extends State<LocationScreen> {
         title: const Text('Location'),
         backgroundColor: Colors.purple,
       ),
-      body: _loadingLocation
-          ? const Center(child: CircularProgressIndicator()) // Show loading indicator
-          : GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _currentLocation,
-                zoom: 15.0, // Initial zoom level
-              ),
-              markers: {
-                Marker(
-                  markerId: const MarkerId('currentLocation'),
-                  position: _currentLocation,
-                  infoWindow: const InfoWindow(
-                    title: 'Your Location',
-                  ),
-                ),
-              },
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: (GoogleMapController controller) {
+              _mapController = controller;
+            },
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(40.7128, -74.0060), // Default to NYC
+              zoom: 10.0,
             ),
+            myLocationEnabled: true,
+            markers: _currentLocation != null
+                ? {
+              Marker(
+                markerId: const MarkerId('currentLocation'),
+                position: _currentLocation!,
+                infoWindow: const InfoWindow(title: 'Your Location'),
+              ),
+            }
+                : {},
+          ),
+          Positioned(
+            bottom: 100,
+            left: 20,
+            right: 20,
+            child: ElevatedButton(
+              onPressed: _getCurrentLocation,
+              child: _loading
+                  ? const CircularProgressIndicator(
+                color: Colors.white,
+              )
+                  : const Text('Locate Me'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
