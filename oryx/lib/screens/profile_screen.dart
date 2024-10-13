@@ -45,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (profile['logo'] != null)
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage(profile['logo']),
+                      backgroundImage: AssetImage('assets/images/user_avatar.jpg'),
                     ),
                   const SizedBox(height: 20),
                   // Display the name

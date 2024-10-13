@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../auth/login_screen.dart';
 import 'notification_screen.dart';
 import 'profile_screen.dart';
 import 'location_screen.dart';
@@ -78,13 +80,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
             const SizedBox(height: 20),
-            _buildSettingsButton(
-              icon: Icons.logout,
-              title: "Logout",
-              onPressed: () {
-                // Handle logout
-              },
-            ),
           ],
         ),
       ),
