@@ -1,10 +1,65 @@
 import 'package:flutter/material.dart';
+//import 'network_connection.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:async';
+import '../services/network_connection.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final VoidCallback toggleTheme; // Add toggleTheme parameter
   final bool isDarkMode; // Add isDarkMode parameter
 
-  const HomeScreen({super.key, required this.toggleTheme, required this.isDarkMode});
+  const HomeScreen(
+      {super.key, required this.toggleTheme, required this.isDarkMode});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late NetworkConnection _networkConnection;
+  late StreamSubscription<ConnectivityResult> _subscription;
+  String _connectionStatus = 'Checking network connection...';
+
+  @override
+  void initState() {
+    super.initState();
+    _networkConnection = NetworkConnection();
+
+    // Listen for connectivity changes
+    _subscription = _networkConnection.connectionStatusStream
+        .listen((ConnectivityResult result) {
+      setState(() {
+        _connectionStatus = _getStatusMessage(result);
+      });
+    });
+
+    // Check initial connectivity status
+    _networkConnection.checkConnection().then((result) {
+      setState(() {
+        _connectionStatus = _getStatusMessage(result);
+      });
+    });
+  }
+
+  String _getStatusMessage(ConnectivityResult result) {
+    switch (result) {
+      case ConnectivityResult.wifi:
+        return 'Connected to Wi-Fi';
+      case ConnectivityResult.mobile:
+        return 'Connected to Mobile Data';
+      case ConnectivityResult.none:
+        return 'No Internet Connection';
+      default:
+        return 'Unknown Connection Status';
+    }
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    _networkConnection.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +69,8 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 195, 57, 219),
         actions: [
           IconButton(
-            icon: Icon(isDarkMode ? Icons.dark_mode : Icons.light_mode), // Toggle button for dark mode
-            onPressed: toggleTheme, // Call the toggleTheme function
+            icon: Icon(widget.isDarkMode ? Icons.dark_mode : Icons.light_mode),
+            onPressed: widget.toggleTheme,
           ),
           IconButton(
             icon: const Icon(Icons.shopping_cart),
@@ -31,6 +86,8 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildNetworkStatus(),
+              const SizedBox(height: 20),
               _buildAdvertisementBanner(),
               const SizedBox(height: 20),
               const Text(
@@ -63,13 +120,36 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildNetworkStatus() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.yellow.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.network_check, color: Colors.black54),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              _connectionStatus,
+              style: const TextStyle(fontSize: 16, color: Colors.black87),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAdvertisementBanner() {
     return Container(
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         image: const DecorationImage(
-          image: NetworkImage('http://10.0.2.2:8000/storage/products/17278659911.jpg'),
+          image: NetworkImage(
+              'http://10.0.2.2:8000/storage/products/17278659911.jpg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -78,7 +158,10 @@ class HomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           gradient: LinearGradient(
-            colors: [Colors.black.withOpacity(0.4), Colors.black.withOpacity(0.1)],
+            colors: [
+              Colors.black.withOpacity(0.4),
+              Colors.black.withOpacity(0.1)
+            ],
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ),
@@ -101,7 +184,8 @@ class HomeScreen extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          _buildCategoryItem('Moisturizers', Icons.water_drop, Colors.blueAccent),
+          _buildCategoryItem(
+              'Moisturizers', Icons.water_drop, Colors.blueAccent),
           _buildCategoryItem('Serums', Icons.opacity, Colors.pinkAccent),
           _buildCategoryItem('Cleansers', Icons.bubble_chart, Colors.orange),
           _buildCategoryItem('Masks', Icons.spa, Colors.green),
@@ -238,7 +322,8 @@ class HomeScreen extends StatelessWidget {
             "Shop with us today and experience the best in skincare!",
             style: TextStyle(
               fontSize: 16.0,
-              color: Colors.black54,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
             ),
           ),
         ],
