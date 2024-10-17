@@ -37,9 +37,9 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-# Android Studio 
+# Android Studio
 /android/app/debug
 /android/app/profile
 /android/app/release
 
-./backend/vendor
+backend/vendor
