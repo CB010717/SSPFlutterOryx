@@ -1,37 +1,43 @@
+<!-- resources/views/layouts/app.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title class="d-print-none">@stack('title')</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
-
-    <!-- Vendor CSS Files -->
-    @vite(['resources/css/app.css'])
-    @stack('css')
-    @livewireStyles
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'ORYX - Makeup for Every Beauty')</title>
+    <link rel="icon" href="{{ asset('images/logo.webp') }}">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        html {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Enable dark mode by default */
+        html {
+            color-scheme: dark;
+        }
+    </style>
+    <script>
+        // Enable dark mode with Tailwind's dark variant
+        tailwind.config = {
+            darkMode: 'class',
+        };
+    </script>
 </head>
+<body class="dark bg-gray-900 text-gray-100 antialiased min-h-screen flex flex-col">
 
-<body>
-    
-    {{ $slot }}
+<!-- Navbar Component -->
 
-    <!-- Vendor JS Files -->
-    @vite(['resources/js/app.js'])
-    <!-- Blade JS Script -->
-    @stack('script')
-    <!-- Livewire JS Script -->
-    @livewireScripts
+<!-- Page Content -->
+<main class="flex-grow">
+    @yield('content')
+</main>
+
+<!-- Footer -->
+<footer class="py-8 bg-gray-900 text-gray-400 text-center">
+    <p>&copy; 2024 ORYX. All rights reserved.</p>
+</footer>
+
 </body>
-
 </html>
